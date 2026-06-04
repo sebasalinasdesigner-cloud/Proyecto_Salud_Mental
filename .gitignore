@@ -1,0 +1,28 @@
+# Entornos virtuales de Python
+venv/
+env/
+.env
+*.env
+
+# Archivos de caché de Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Archivos de Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Archivos temporales / sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos de scratch / IDE
+.gemini/
+scratch/
+
+# Archivos de logs
+*.log

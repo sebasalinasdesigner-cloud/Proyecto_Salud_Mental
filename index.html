@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Landing page del proyecto de análisis y predicción de Adicción a Redes Sociales en estudiantes utilizando Machine Learning y CRISP-ML.">
+    <title>Salud Mental y Redes Sociales - CRISP-ML Project</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-primary: #0b0f19;
+            --bg-secondary: #131a2e;
+            --bg-glass: rgba(19, 26, 46, 0.7);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --accent-primary: #6366f1; /* Indigo */
+            --accent-secondary: #d946ef; /* Magenta/Fuchsia */
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .nav-logo {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+        }
+
+        /* Glassmorphism Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            padding: 160px 20px 100px;
+            background: radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 10% 80%, rgba(217, 70, 239, 0.1) 0%, transparent 50%);
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #ffffff, #c7d2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 35px;
+        }
+
+        .btn-gradient {
+            background: var(--gradient);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+        }
+
+        .hero-image-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .card-header-mockup {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .dot.red { background-color: #ef4444; }
+        .dot.yellow { background-color: #eab308; }
+        .dot.green { background-color: #22c55e; }
+
+        /* Stats Cards */
+        .stats-section {
+            padding: 80px 20px;
+            background-color: var(--bg-secondary);
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .stat-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        /* Methodology (CRISP-ML) Section */
+        .crisp-section {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--gradient);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 35px;
+        }
+
+        .notebook-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 35px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .notebook-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(99, 102, 241, 0.4);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .notebook-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .notebook-card p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        .btn-card {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .btn-card:hover {
+            color: var(--accent-secondary);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #080b13;
+            border-top: 1px solid var(--border-glass);
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 900px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .grid-cards, .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header>
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fa-solid fa-brain"></i> MentalTech
+            </div>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#stats">Métricas</a></li>
+                <li><a href="#metodologia">CRISP-ML</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Salud Mental y Adicción a Redes Sociales</h1>
+                <p>Un enfoque basado en datos y metodologías robustas de Inteligencia Artificial para diagnosticar y entender el impacto del tiempo en pantalla sobre la salud emocional y el sueño en estudiantes.</p>
+                <a href="#metodologia" class="btn-gradient">
+                    Explorar Proyecto <i class="fa-solid fa-arrow-down"></i>
+                </a>
+            </div>
+            <div class="hero-image-card">
+                <div class="card-header-mockup">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                </div>
+                <h3 style="margin-bottom: 10px; font-size: 1.4rem;">Predictor de Riesgo IA</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">
+                    Modelo de Regresión Lineal entrenado con scikit-learn.
+                </p>
+                <div style="background-color: rgba(255,255,255,0.03); border: 1px dashed var(--border-glass); border-radius: 10px; padding: 15px; text-align: center;">
+                    <code style="color: var(--accent-secondary); font-weight: bold; font-size: 1.1rem;">R² Score: 0.9497</code>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section" id="stats">
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number">705</div>
+                <div class="stat-muted">Registros de Estudiantes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">94.9%</div>
+                <div class="stat-muted">Precisión R² del Modelo</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">5</div>
+                <div class="stat-muted">Variables Predictoras Clave</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Methodology CRISP-ML Section -->
+    <section class="crisp-section" id="metodologia">
+        <h2 class="section-title">Metodología CRISP-ML y Cuadernos</h2>
+        <div class="grid-cards">
+            
+            <!-- ETL Card -->
+            <div class="notebook-card">
+                <div>
+                    <div class="card-icon"><i class="fa-solid fa-database"></i></div>
+                    <h3>01_ETL.ipynb</h3>
+                    <p>Fase de Extracción, Transformación y Carga. Comprende la limpieza del dataset original, eliminación de registros duplicados y validación de consistencia.</p>
+                </div>
+                <a href="file:///c:/Users/VERDUN/OneDrive/Documentos/Talento%20Tech%20AI/Pr%C3%A1ctica%20AI/Proyecto%20AI/Proyecto_Salud_Mental/01_ETL.ipynb" class="btn-card">
+                    Ver Cuaderno <i class="fa-solid fa-chevron-right"></i>
+                </a>
+            </div>
+
+            <!-- EDA Card -->
+            <div class="notebook-card">
+                <div>
+                    <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <h3>02_EDA.ipynb</h3>
+                    <p>Análisis Exploratorio de Datos. Visualización de la distribución del tiempo en redes, correlaciones entre salud mental, horas de sueño y puntajes de adicción.</p>
+                </div>
+                <a href="file:///c:/Users/VERDUN/OneDrive/Documentos/Talento%20Tech%20AI/Pr%C3%A1ctica%20AI/Proyecto%20AI/Proyecto_Salud_Mental/02_EDA.ipynb" class="btn-card">
+                    Ver Cuaderno <i class="fa-solid fa-chevron-right"></i>
+                </a>
+            </div>
+
+            <!-- Regresión Card -->
+            <div class="notebook-card">
+                <div>
+                    <div class="card-icon"><i class="fa-solid fa-robot"></i></div>
+                    <h3>03_Regresion_Lineal.ipynb</h3>
+                    <p>Modelado y Entrenamiento de Regresión Lineal. Selección de características, entrenamiento con scikit-learn, cálculo de métricas de error y exportación del modelo (.pkl).</p>
+                </div>
+                <a href="file:///c:/Users/VERDUN/OneDrive/Documentos/Talento%20Tech%20AI/Pr%C3%A1ctica%20AI/Proyecto%20AI/Proyecto_Salud_Mental/03_Regresion_Lineal.ipynb" class="btn-card">
+                    Ver Cuaderno <i class="fa-solid fa-chevron-right"></i>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 MentalTech Project. Desarrollado bajo metodología CRISP-ML en Talento Tech.</p>
+    </footer>
+
+</body>
+</html>
