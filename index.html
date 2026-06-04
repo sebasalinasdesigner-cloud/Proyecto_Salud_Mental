@@ -613,11 +613,91 @@
     const iframeUrlEl = document.querySelector('.iframe-url');
     if (iframeUrlEl) {
         iframeUrlEl.style.cursor = 'pointer';
+        // Permite al usuario establecer una URL personalizada para el embed
         iframeUrlEl.addEventListener('click', () => {
-            const src = document.getElementById('streamlit-frame')?.src || 'http://localhost:8501';
-            window.open(src, '_blank', 'noopener');
+            const current = localStorage.getItem('embedUrl') || document.getElementById('streamlit-frame')?.src || 'http://localhost:8501';
+            const url = prompt('Introduce la URL pública de la app Streamlit (deja vacío para usar localhost):', current || 'http://localhost:8501');
+            if (url === null) return; // cancel
+            if (url.trim() === '') {
+                localStorage.removeItem('embedUrl');
+            } else {
+                localStorage.setItem('embedUrl', url.trim());
+            }
+            // reintentar embed con la nueva configuración
+            tryEmbedPicker();
         });
     }
+
+    // Intentar cargar el iframe desde varias URLs (prioriza URL guardada, luego localhost)
+    function tryEmbedPicker() {
+        const saved = localStorage.getItem('embedUrl');
+        const candidates = [];
+        if (saved) candidates.push(saved);
+        candidates.push('http://localhost:8501');
+        // Puedes añadir aquí otras URLs públicas donde se despliegue la app
+        // candidates.push('https://mi-streamlit-deploy.example.com');
+
+        const frame = document.getElementById('streamlit-frame');
+        const offlineNotice = document.getElementById('offline-notice');
+        const iframeUrlDisplay = document.querySelector('.iframe-url');
+        let tried = 0;
+
+        function tryNext() {
+            if (tried >= candidates.length) {
+                // ninguno respondió
+                if (frame) frame.style.display = 'none';
+                if (offlineNotice) offlineNotice.style.display = 'flex';
+                if (iframeUrlDisplay) iframeUrlDisplay.textContent = candidates[0] || 'http://localhost:8501';
+                return;
+            }
+
+            const url = candidates[tried++];
+            if (!url) return tryNext();
+
+            // establecer src y esperar al evento load
+            if (frame) {
+                // limpiar visibilidad antes de probar
+                frame.style.display = 'block';
+                offlineNotice.style.display = 'none';
+                frame.src = url;
+            }
+
+            let settled = false;
+            const onLoadHandler = function() {
+                if (settled) return; settled = true;
+                try {
+                    // si podemos acceder al documento y tiene título, asumimos que cargó correctamente
+                    if (frame.contentDocument && frame.contentDocument.title !== '') {
+                        if (iframeUrlDisplay) iframeUrlDisplay.textContent = url;
+                        hideOffline();
+                        return;
+                    }
+                } catch(e) {
+                    // cross-origin: si onload disparó y no podemos acceder, asumimos éxito
+                    if (iframeUrlDisplay) iframeUrlDisplay.textContent = url;
+                    hideOffline();
+                    return;
+                }
+                // Si llegamos aquí es posible que la página esté vacía => probar siguiente
+                setTimeout(tryNext, 200);
+            };
+
+            frame.removeEventListener('load', onLoadHandler);
+            frame.addEventListener('load', onLoadHandler);
+
+            // Timeout para pasar al siguiente candidato
+            setTimeout(() => {
+                if (settled) return;
+                // no hubo carga válida en 3.5 s -> probar siguiente
+                tryNext();
+            }, 3500);
+        }
+
+        tryNext();
+    }
+
+    // Lanza la verificación de embed al cargar la página
+    tryEmbedPicker();
 </script>
 
 </body>
