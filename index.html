@@ -179,6 +179,12 @@
         .nb-file { font-family: monospace; font-size: .78rem; color: var(--accent); }
         .nb-card p { color: var(--muted); font-size: .9rem; margin-bottom: 24px; flex: 1; }
         .nb-footer { display: flex; align-items: center; justify-content: space-between; }
+        .nb-actions { display:flex; gap:10px; align-items:center; }
+        .nb-download {
+            background: transparent; color: var(--text); padding: 8px 12px; border-radius: 8px;
+            border: 1px solid rgba(255,255,255,.04); text-decoration: none; font-size: .85rem;
+        }
+        .nb-download:hover { border-color: rgba(99,102,241,.24); color: var(--accent2); }
         .nb-tag {
             font-size: .75rem; font-weight: 600; padding: 4px 12px; border-radius: 20px;
             background: rgba(99,102,241,.12); color: var(--accent); border: 1px solid rgba(99,102,241,.2);
@@ -228,6 +234,12 @@
             display: flex; align-items: center; gap: 6px;
             font-size: .75rem; color: var(--green); font-weight: 600;
         }
+        .iframe-open-btn {
+            margin-left: 12px; background: transparent; border: 1px solid rgba(255,255,255,.06);
+            color: var(--muted); padding: 6px 10px; border-radius: 8px; font-size: .78rem;
+            display: inline-flex; align-items: center; gap:8px; cursor: pointer;
+        }
+        .iframe-open-btn:hover { color: var(--text); border-color: rgba(99,102,241,.35); }
         .live-dot {
             width: 8px; height: 8px; border-radius: 50%;
             background: var(--green); animation: pulse 1.5s infinite;
@@ -384,9 +396,10 @@
                 </div>
                 <div class="nb-footer">
                     <span class="nb-tag">Pandas · NumPy</span>
-                    <a href="01_ETL.html" class="nb-link" title="Ver notebook como HTML">
-                        Ver <i class="fa-solid fa-eye"></i>
-                    </a>
+                    <div class="nb-actions">
+                        <a href="01_ETL.html" class="nb-link" title="Ver notebook como HTML">Ver <i class="fa-solid fa-eye"></i></a>
+                        <a href="01_ETL.ipynb" class="nb-download" title="Descargar notebook (.ipynb)" download>Descargar .ipynb <i class="fa-solid fa-download"></i></a>
+                    </div>
                 </div>
             </div>
 
@@ -404,9 +417,10 @@
                 </div>
                 <div class="nb-footer">
                     <span class="nb-tag">Matplotlib · Seaborn</span>
-                    <a href="02_EDA.html" class="nb-link" title="Ver notebook como HTML">
-                        Ver <i class="fa-solid fa-eye"></i>
-                    </a>
+                    <div class="nb-actions">
+                        <a href="02_EDA.html" class="nb-link" title="Ver notebook como HTML">Ver <i class="fa-solid fa-eye"></i></a>
+                        <a href="02_EDA.ipynb" class="nb-download" title="Descargar notebook (.ipynb)" download>Descargar .ipynb <i class="fa-solid fa-download"></i></a>
+                    </div>
                 </div>
             </div>
 
@@ -424,9 +438,10 @@
                 </div>
                 <div class="nb-footer">
                     <span class="nb-tag">scikit-learn · joblib</span>
-                    <a href="03_Regresion_Lineal.html" class="nb-link" title="Ver notebook como HTML">
-                        Ver <i class="fa-solid fa-eye"></i>
-                    </a>
+                    <div class="nb-actions">
+                        <a href="03_Regresion_Lineal.html" class="nb-link" title="Ver notebook como HTML">Ver <i class="fa-solid fa-eye"></i></a>
+                        <a href="03_Regresion_Lineal.ipynb" class="nb-download" title="Descargar notebook (.ipynb)" download>Descargar .ipynb <i class="fa-solid fa-download"></i></a>
+                    </div>
                 </div>
             </div>
 
@@ -444,9 +459,10 @@
                 </div>
                 <div class="nb-footer">
                     <span class="nb-tag">DecisionTree · plot_tree</span>
-                    <a href="04_Arbol_Decisiones.html" class="nb-link" title="Ver notebook como HTML">
-                        Ver <i class="fa-solid fa-eye"></i>
-                    </a>
+                    <div class="nb-actions">
+                        <a href="04_Arbol_Decisiones.html" class="nb-link" title="Ver notebook como HTML">Ver <i class="fa-solid fa-eye"></i></a>
+                        <a href="04_Arbol_Decisiones.ipynb" class="nb-download" title="Descargar notebook (.ipynb)" download>Descargar .ipynb <i class="fa-solid fa-download"></i></a>
+                    </div>
                 </div>
             </div>
 
@@ -501,6 +517,9 @@
                 <div class="iframe-live">
                     <div class="live-dot"></div> LIVE
                 </div>
+                <button class="iframe-open-btn" onclick="window.open(document.getElementById('streamlit-frame').src || 'http://localhost:8501', '_blank', 'noopener')">
+                    <i class="fa-solid fa-up-right-from-square"></i>&nbsp;Abrir
+                </button>
             </div>
 
             <!-- Iframe intentará conectar a Streamlit corriendo en local -->
@@ -583,6 +602,22 @@
             }
         }
     }, 5000);
+
+    // Asegurar que los enlaces a los cuadernos abran en nueva pestaña
+    document.querySelectorAll('.nb-link').forEach(a => {
+        a.setAttribute('target', '_blank');
+        a.setAttribute('rel', 'noopener noreferrer');
+    });
+
+    // Hacer la URL del iframe clicable para abrir el Streamlit en una nueva pestaña
+    const iframeUrlEl = document.querySelector('.iframe-url');
+    if (iframeUrlEl) {
+        iframeUrlEl.style.cursor = 'pointer';
+        iframeUrlEl.addEventListener('click', () => {
+            const src = document.getElementById('streamlit-frame')?.src || 'http://localhost:8501';
+            window.open(src, '_blank', 'noopener');
+        });
+    }
 </script>
 
 </body>
